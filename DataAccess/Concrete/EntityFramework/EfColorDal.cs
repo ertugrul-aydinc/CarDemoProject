@@ -10,7 +10,7 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfBrandDal : EfEntityRepositoryBase<Brands,CarContext>,IBrandDal
+    public class EfColorDal : EfEntityRepositoryBase<Colors,CarContext>,IColorDal
     {
         
     }
