@@ -40,7 +40,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
-        public IDataResult<Car> GetById(int id)
+        public IDataResult<Car> Get(int id)
         {
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
@@ -71,5 +71,7 @@ namespace Business.Concrete
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
+
+       
     }
 }

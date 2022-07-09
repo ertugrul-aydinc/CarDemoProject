@@ -7,12 +7,16 @@ namespace Entities.DTOs
 {
     public class RentalDetailDto:IDto
     {
-        public int RentalId { get; set; }
-        public string BrandName { get; set; }
-        public string CarName { get; set; }
-        public string CustomerName { get; set; }
-        public string CompanyName { get; set; }
-        public DateTime RentDate { get; set; }
-        public DateTime? ReturnDate { get; set; }
-    }
+		public int Id { get; set; }
+		public string BrandName { get; set; } // Brands
+		public string ColorName { get; set; } // Colors
+		public string CompanyName { get; set; } // Customer
+		public int DailyPrice { get; set; } // Cars
+		public string Email { get; set; } // User
+		public string FirstName { get; set; } // User
+		public string LastName { get; set; } // User
+		public int ModelYear { get; set; } // Cars
+		public DateTime RentDate { get; set; }
+		public DateTime ReturnDate { get; set; }
+	}
 }

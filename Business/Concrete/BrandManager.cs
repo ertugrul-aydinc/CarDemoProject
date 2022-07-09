@@ -35,6 +35,11 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IDataResult<Brands> Get(int id)
+        {
+            return new SuccessDataResult<Brands>(_brandDal.Get(b => b.Id == id));
+        }
+
         public IDataResult<List<Brands>> GetAll()
         {
             return new SuccessDataResult<List<Brands>>(_brandDal.GetAll());

@@ -1,4 +1,5 @@
 ﻿
+using Core.BaseServices;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -9,16 +10,13 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface ICarService
+    public interface ICarService:IEntityBaseService<Car>
     {
-        IDataResult<List<Car>> GetAll();
-        IResult Add(Car car);
-        IResult Delete(Car car);
-        IResult Update(Car car);
+        
 
         IDataResult<List<Car>> LessThanPrice(int fiyat);
 
-        IDataResult<Car> GetById(int id);
+        
 
         IDataResult<List<Car>> GetCarsByBrandId(int id);
 
