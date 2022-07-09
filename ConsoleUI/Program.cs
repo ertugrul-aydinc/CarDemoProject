@@ -9,12 +9,15 @@ GetCarDetails();
 
 
 
+
+
+
 static void GetCarDetails()
 {
     CarManager carManager = new CarManager(new EfCarDal());
 
 
-    foreach (var item in carManager.GetCarDetail())
+    foreach (var item in carManager.GetCarDetail().Data)
     {
         Console.WriteLine("Car's Brand: "+item.BrandName+" | Description :"+item.Description+" | Color: "+item.ColorName+" | Daily Price: "+item.DailyPrice);
     }
@@ -24,7 +27,7 @@ static void GetAllCars()
 {
     CarManager carManager = new CarManager(new EfCarDal());
 
-    foreach (var item in carManager.Listele())
+    foreach (var item in carManager.Listele().Data)
     {
         Console.WriteLine(item.Id + " : " + item.Description);
     }

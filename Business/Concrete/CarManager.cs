@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -18,39 +20,56 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public void Ekle(Car car)
+        public IResult Ekle(Car car)
         {
+            if (car.Description.Length < 2)
+            {
+                return new ErrorResult(Messages.ProductNameInvalid);
+            }
             _carDal.Add(car);
+            return new SuccessResult();
         }
 
-        public List<Car> fiyatListele(int fiyat)
+        public IDataResult<List<Car>> fiyatListele(int fiyat)
         {
-            return _carDal.GetAll(c => c.DailyPrice < fiyat);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice < fiyat));
         }
 
-        public List<Car> Listele()
+        public IDataResult<List<Car>> Listele()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
-        public Car arabaBul(int id)
+        public IDataResult<Car> arabaBul(int id)
         {
-            return _carDal.Get(c => c.Id == id);
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
 
-        public List<Car> GetCarsByBrandId(int id)
+        public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
-            return _carDal.GetAll(c => c.BrandId == id);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
         }
 
-        public List<Car> GetCarsByColorId(int id)
+        public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
-            return _carDal.GetAll(c => c.ColorId == id);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
-        public List<CarDetail> GetCarDetail()
+        public IDataResult<List<CarDetail>> GetCarDetail()
         {
-            return _carDal.GetCarDetail();
+            return new SuccessDataResult<List<CarDetail>>(_carDal.GetCarDetail());
+        }
+
+        public IResult Sil(Car car)
+        {
+            _carDal.Delete(car);
+            return new SuccessResult(Messages.CarDeleted);
+        }
+
+        public IResult Guncelle(Car car)
+        {
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
     }
 }
