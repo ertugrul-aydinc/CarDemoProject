@@ -20,7 +20,7 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public IResult Ekle(Car car)
+        public IResult Add(Car car)
         {
             if (car.Description.Length < 2)
             {
@@ -30,17 +30,17 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<List<Car>> fiyatListele(int fiyat)
+        public IDataResult<List<Car>> LessThanPrice(int fiyat)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice < fiyat));
         }
 
-        public IDataResult<List<Car>> Listele()
+        public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
-        public IDataResult<Car> arabaBul(int id)
+        public IDataResult<Car> GetById(int id)
         {
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
@@ -55,18 +55,18 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
-        public IDataResult<List<CarDetail>> GetCarDetail()
+        public IDataResult<List<CarDetailDto>> GetCarDetail()
         {
-            return new SuccessDataResult<List<CarDetail>>(_carDal.GetCarDetail());
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetail());
         }
 
-        public IResult Sil(Car car)
+        public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
 
-        public IResult Guncelle(Car car)
+        public IResult Update(Car car)
         {
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);

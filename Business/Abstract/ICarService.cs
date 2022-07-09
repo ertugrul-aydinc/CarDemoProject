@@ -11,20 +11,20 @@ namespace Business.Abstract
 {
     public interface ICarService
     {
-        IDataResult<List<Car>> Listele();
-        IResult Ekle(Car car);
-        IResult Sil(Car car);
-        IResult Guncelle(Car car);
+        IDataResult<List<Car>> GetAll();
+        IResult Add(Car car);
+        IResult Delete(Car car);
+        IResult Update(Car car);
 
-        IDataResult<List<Car>> fiyatListele(int fiyat);
+        IDataResult<List<Car>> LessThanPrice(int fiyat);
 
-        IDataResult<Car> arabaBul(int id);
+        IDataResult<Car> GetById(int id);
 
         IDataResult<List<Car>> GetCarsByBrandId(int id);
 
         IDataResult<List<Car>> GetCarsByColorId(int id);
 
-        IDataResult<List<CarDetail>> GetCarDetail();
+        IDataResult<List<CarDetailDto>> GetCarDetail();
 
         
     }

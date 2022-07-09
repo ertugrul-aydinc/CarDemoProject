@@ -27,7 +27,7 @@ namespace Business.Concrete
 
         public IResult Delete(Rental rental)
         {
-            var result = _rentalDal.GetAll(r => r.Id == rental.Id);
+            var result = _rentalDal.Get(r => r.Id == rental.Id);
             if( result == null)
             {
                 return new ErrorResult(Messages.Error);
@@ -48,7 +48,7 @@ namespace Business.Concrete
 
         public IResult Update(Rental rental)
         {
-            var result = _rentalDal.GetAll(r => r.Id == rental.Id);
+            var result = _rentalDal.Get(r => r.Id == rental.Id);
             if (result == null)
             {
                 return new ErrorResult(Messages.Error);
