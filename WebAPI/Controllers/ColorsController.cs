@@ -1,0 +1,83 @@
+﻿using Business.Abstract;
+using DataAccess.Abstract;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ColorsController : ControllerBase
+    {
+        IColorService _colorService;
+
+        public ColorsController(IColorService colorService)
+        {
+            _colorService = colorService;
+        }
+
+        [HttpGet("getall")]
+        public IActionResult GetAll()
+        {
+            var result = _colorService.GetAll();
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("add")]
+        public IActionResult Add(Colors color)
+        {
+            var result = _colorService.Add(color);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Message);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("getbyid")]
+
+        public IActionResult GetById(int id)
+        {
+            var result = _colorService.Get(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+
+        public IActionResult Delete(Colors color)
+        {
+            var result = _colorService.Delete(color);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Message);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpPost("update")]
+
+        public IActionResult Update(Colors color)
+        {
+            var result = _colorService.Update(color);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+    }
+}

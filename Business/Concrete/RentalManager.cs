@@ -7,7 +7,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Linq;
 namespace Business.Concrete
 {
     public class RentalManager : IRentalService
@@ -52,7 +52,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
-        public IDataResult<List<RentalDetailDto>> GetRentalDetail()
+       
+
+        public IDataResult<List<RentalDetailDto>> GetRentalsDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetail());
         }

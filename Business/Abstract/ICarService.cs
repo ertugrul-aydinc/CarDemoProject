@@ -10,9 +10,15 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface ICarService:IEntityBaseService<Car>
+    public interface ICarService
     {
-        
+
+        IResult Add(Car car);
+        IResult Delete(Car car);
+        IResult Update(Car car);
+        IDataResult<List<Car>> GetAll();
+        IDataResult<Car> Get(int id);
+
 
         IDataResult<List<Car>> LessThanPrice(int fiyat);
 

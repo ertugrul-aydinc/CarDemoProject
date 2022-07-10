@@ -9,10 +9,14 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface IRentalService:IEntityBaseService<Rental>
+    public interface IRentalService
     {
+        IResult Add(Rental rental);
+        IResult Delete(Rental rental);
+        IResult Update(Rental rental);
+        IDataResult<List<Rental>> GetAll();
+        IDataResult<Rental> Get(int id);
+        IDataResult<List<RentalDetailDto>> GetRentalsDetails();
         
-
-        IDataResult<List<RentalDetailDto>> GetRentalDetail();
     }
 }

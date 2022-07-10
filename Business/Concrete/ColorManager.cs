@@ -24,8 +24,16 @@ namespace Business.Concrete
 
         public IResult Add(Colors color)
         {
+            var control = _colorDal.GetAll(c => c.Id == color.Id||c.ColorName==color.ColorName);
+            
+
+            if (control.Count!=0)
+            {
+                return new ErrorResult(Messages.Error);
+            }
+
             _colorDal.Add(color);
-            return new SuccessResult();
+            return new SuccessResult(Messages.ColorAdded);
         }
 
         public IResult Delete(Colors color)

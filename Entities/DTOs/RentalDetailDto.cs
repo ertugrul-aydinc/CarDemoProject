@@ -16,7 +16,7 @@ namespace Entities.DTOs
 		public string FirstName { get; set; } // User
 		public string LastName { get; set; } // User
 		public int ModelYear { get; set; } // Cars
-		public DateTime RentDate { get; set; }
-		public DateTime ReturnDate { get; set; }
+		public DateTime? RentDate { get; set; }
+		public DateTime? ReturnDate { get; set; }
 	}
 }

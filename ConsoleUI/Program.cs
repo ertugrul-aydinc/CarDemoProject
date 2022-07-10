@@ -6,10 +6,42 @@ using Entities.Concrete;
 
 //GetAllCars();
 
-GetRentalDetails();
-
+//GetRentalDetails();
 
 //GetCustomersDetails();
+
+
+
+BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+brandManager.Add(new Brands { BrandName = "Ferrari" });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 static void GetCarDetails()
 {
