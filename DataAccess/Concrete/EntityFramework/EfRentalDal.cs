@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -42,7 +43,13 @@ namespace DataAccess.Concrete.EntityFramework
 				return result.ToList();
 			}
 
+
         }
+
+        public RentalDetailDto GetRentalDetailById(int id)
+        {
+				return GetRentalDetail().SingleOrDefault(r => r.Id == id);
+		}
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,13 @@ namespace WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         IRentalService _rentalService;
+        IRentalDal _rentalDal;
 
-        public RentalsController(IRentalService rentalService)
+
+        public RentalsController(IRentalService rentalService,IRentalDal rentalDal)
         {
             _rentalService = rentalService;
+            _rentalDal = rentalDal;
         }
 
         [HttpGet("getall")]
@@ -91,5 +95,24 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-    }
+
+        [HttpGet("getrentaldetailbyid")]
+
+        public IActionResult GetRentalDetailById()
+        {
+            var result = _rentalDal.GetRentalDetail();
+
+            return Ok(result);
+        }
+
+        [HttpGet("getrentaldetailbyid2")]
+
+        public IActionResult GetRentalDetailById2(int id)
+        {
+            var result = _rentalDal.GetRentalDetailById(id);
+
+            return Ok(result);
+        }
+
+    }    
 }

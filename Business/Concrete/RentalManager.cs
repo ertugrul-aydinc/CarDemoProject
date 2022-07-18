@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+
 namespace Business.Concrete
 {
     public class RentalManager : IRentalService
@@ -18,6 +21,8 @@ namespace Business.Concrete
         {
             _rentalDal = rentalDal;
         }
+
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
             var result = _rentalDal.Get(r => r.Id == rental.Id && r.ReturnDate > DateTime.Now);
@@ -52,7 +57,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
-       
+      
 
         public IDataResult<List<RentalDetailDto>> GetRentalsDetails()
         {
