@@ -1,4 +1,4 @@
-﻿using Core.BaseServices;
+﻿//using Core.BaseServices;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using System;
@@ -9,10 +9,10 @@ namespace Business.Abstract
 {
     public interface IColorService
     {
-        IResult Add(Colors color);
-        IResult Delete(Colors color);
-        IResult Update(Colors color);
-        IDataResult<List<Colors>> GetAll();
-        IDataResult<Colors> Get(int id);
+        IResult Add(Color color);
+        IResult Delete(Color color);
+        IResult Update(Color color);
+        IDataResult<List<Color>> GetAll();
+        IDataResult<Color> Get(int id);
     }
 }

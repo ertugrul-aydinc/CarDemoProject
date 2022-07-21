@@ -10,6 +10,7 @@ using System.Text;
 using System.Linq;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 
 namespace Business.Concrete
 {
@@ -25,14 +26,13 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            var result = _rentalDal.Get(r => r.Id == rental.Id && r.ReturnDate > DateTime.Now);
+            var result = BusinessRules.Run(CheckIfCarReturned(rental.Id));
 
-            if(result == null)
+            if(!result.IsSuccess)
             {
-                _rentalDal.Add(rental);
-                return new SuccessResult();
+                return result;
             }
-            return new ErrorResult(Messages.Error);
+            return new SuccessResult();
 
         }
 
@@ -57,7 +57,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
-      
+        public IDataResult<RentalDetailDto> GetRentalDetailById(int id)
+        {
+            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDetailById(id));
+        }
 
         public IDataResult<List<RentalDetailDto>> GetRentalsDetails()
         {
@@ -72,6 +75,18 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.Error);
             }
             _rentalDal.Update(rental);
+            return new SuccessResult();
+        }
+
+
+        private IResult CheckIfCarReturned(int rentalId)
+        {
+            var result = _rentalDal.Get(r => r.Id == rentalId && r.ReturnDate > DateTime.Now);
+
+            if(result!= null)
+            {
+                return new ErrorResult();
+            }
             return new SuccessResult();
         }
     }

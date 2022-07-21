@@ -1,4 +1,4 @@
-﻿using Core.BaseServices;
+﻿//using Core.BaseServices;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -17,5 +17,8 @@ namespace Business.Abstract
         IDataResult<List<Rental>> GetAll();
         IDataResult<Rental> Get(int id);
         IDataResult<List<RentalDetailDto>> GetRentalsDetails();
+        IDataResult<RentalDetailDto> GetRentalDetailById(int id);
+        
+            
     }
 }

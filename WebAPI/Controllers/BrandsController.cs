@@ -9,7 +9,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class BrandsController : ControllerBase
     {
-        IBrandService _brandService;
+        private readonly IBrandService _brandService;
 
         public BrandsController(IBrandService brandService)
         {
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Brands brand)
+        public IActionResult Add(Brand brand)
         {
             var result = _brandService.Add(brand);
 
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
 
         [HttpPost("delete")]
 
-        public IActionResult Delete(Brands brand)
+        public IActionResult Delete(Brand brand)
         {
             var result = _brandService.Delete(brand);
 
@@ -68,7 +68,7 @@ namespace WebAPI.Controllers
 
         [HttpPost("update")]
 
-        public IActionResult Update(Brands brand)
+        public IActionResult Update(Brand brand)
         {
             var result = _brandService.Update(brand);
 

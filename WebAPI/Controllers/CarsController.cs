@@ -9,7 +9,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        ICarService _carService;
+        private readonly ICarService _carService;
 
         public CarsController(ICarService carService)
         {
@@ -45,6 +45,19 @@ namespace WebAPI.Controllers
         public IActionResult GetById(int id)
         {
             var result = _carService.Get(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcarsdetails")]
+
+        public IActionResult GetCarsDetails()
+        {
+            var result = _carService.GetCarDetail();
 
             if (result.IsSuccess)
             {

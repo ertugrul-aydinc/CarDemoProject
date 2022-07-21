@@ -1,4 +1,4 @@
-﻿using Core.BaseServices;
+﻿//using Core.BaseServices;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -10,11 +10,11 @@ namespace Business.Abstract
 {
     public interface IBrandService
     {
-        IResult Add(Brands brand);
-        IResult Delete(Brands brand);
-        IResult Update(Brands brand);
-        IDataResult<List<Brands>> GetAll();
-        IDataResult<Brands> Get(int id);
+        IResult Add(Brand brand);
+        IResult Delete(Brand brand);
+        IResult Update(Brand brand);
+        IDataResult<List<Brand>> GetAll();
+        IDataResult<Brand> Get(int id);
 
 
     }

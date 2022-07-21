@@ -10,14 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class RentalsController : ControllerBase
     {
-        IRentalService _rentalService;
-        IRentalDal _rentalDal;
+        private readonly IRentalService _rentalService;
 
-
-        public RentalsController(IRentalService rentalService,IRentalDal rentalDal)
+        public RentalsController(IRentalService rentalService)
         {
             _rentalService = rentalService;
-            _rentalDal = rentalDal;
         }
 
         [HttpGet("getall")]
@@ -96,20 +93,12 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+
         [HttpGet("getrentaldetailbyid")]
 
-        public IActionResult GetRentalDetailById()
+        public IActionResult GetRentalDetailById(int id)
         {
-            var result = _rentalDal.GetRentalDetail();
-
-            return Ok(result);
-        }
-
-        [HttpGet("getrentaldetailbyid2")]
-
-        public IActionResult GetRentalDetailById2(int id)
-        {
-            var result = _rentalDal.GetRentalDetailById(id);
+            var result = _rentalService.GetRentalDetailById(id);
 
             return Ok(result);
         }

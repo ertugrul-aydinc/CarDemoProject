@@ -16,40 +16,51 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (CarContext context = new CarContext())
             {
-				var result = from rntl in context.Rentals
-							 join crs in context.Car on rntl.CarId equals crs.Id
-							 join cstmr in context.Customers on rntl.CustomerId equals cstmr.Id
-							 join brnd in context.Brands on crs.BrandId equals brnd.Id
-							 join clr in context.Colors on crs.ColorId equals clr.Id
-							 join usr in context.Users on cstmr.UserId equals usr.Id
+                var result = from rntl in context.Rentals
+                             join crs in context.Cars on rntl.CarId equals crs.Id
+                             join cstmr in context.Customers on rntl.CustomerId equals cstmr.Id
+                             join brnd in context.Brands on crs.BrandId equals brnd.Id
+                             join clr in context.Colors on crs.ColorId equals clr.Id
+                             join usr in context.Users on cstmr.UserId equals usr.Id
 
-							 select new RentalDetailDto
+                             select new RentalDetailDto
 
-							 {
-								 Id = rntl.CarId,
-								 BrandName = brnd.BrandName,
-								 ColorName = clr.ColorName,
-								 DailyPrice = crs.DailyPrice,
-								 CompanyName = cstmr.CompanyName,
-								 Email = usr.Email,
-								 FirstName = usr.FirstName,
-								 LastName = usr.LastName,
-								 ModelYear = crs.ModelYear,
-								 RentDate = rntl.RentDate,
-								 ReturnDate = rntl.ReturnDate
+                             {
+                                 Id = rntl.Id,
+                                 BrandName = brnd.BrandName,
+                                 ColorName = clr.ColorName,
+                                 DailyPrice = crs.DailyPrice,
+                                 CompanyName = cstmr.CompanyName,
+                                 Email = usr.Email,
+                                 FirstName = usr.FirstName,
+                                 LastName = usr.LastName,
+                                 ModelYear = crs.ModelYear,
+                                 RentDate = rntl.RentDate,
+                                 ReturnDate = rntl.ReturnDate
 
-							 };
+                             };
 
-				return result.ToList();
-			}
+                return result.ToList();
+            }
 
 
         }
 
         public RentalDetailDto GetRentalDetailById(int id)
         {
-				return GetRentalDetail().SingleOrDefault(r => r.Id == id);
-		}
+            try
+            {
+                return GetRentalDetail().SingleOrDefault(r => r.Id == id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 
 }
+
+

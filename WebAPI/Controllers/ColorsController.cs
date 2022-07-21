@@ -10,7 +10,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ColorsController : ControllerBase
     {
-        IColorService _colorService;
+        private readonly IColorService _colorService;
 
         public ColorsController(IColorService colorService)
         {
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Colors color)
+        public IActionResult Add(Color color)
         {
             var result = _colorService.Add(color);
 
@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
 
         [HttpPost("delete")]
 
-        public IActionResult Delete(Colors color)
+        public IActionResult Delete(Color color)
         {
             var result = _colorService.Delete(color);
 
@@ -69,7 +69,7 @@ namespace WebAPI.Controllers
 
         [HttpPost("update")]
 
-        public IActionResult Update(Colors color)
+        public IActionResult Update(Color color)
         {
             var result = _colorService.Update(color);
 

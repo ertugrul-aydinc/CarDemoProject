@@ -14,7 +14,7 @@ using Entities.Concrete;
 
 BrandManager brandManager = new BrandManager(new EfBrandDal());
 
-brandManager.Add(new Brands { BrandName = "Ferrari" });
+brandManager.Add(new Brand { BrandName = "Ferrari" });
 
 
 
