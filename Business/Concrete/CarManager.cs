@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -62,20 +63,38 @@ namespace Business.Concrete
 
         public IResult Delete(Car car)
         {
+            var result = BusinessRules.Run(CheckIfCarExists(car.Id));
+            if (result != null)
+            {
+                return result;
+            }
+
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
 
         public IResult Update(Car car)
         {
-      
+            var result = BusinessRules.Run(CheckIfCarExists(car.Id));
+            if (result!=null)
+            {
+                return result;
+            }
+
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
 
 
 
-        
-       
+
+        private IResult CheckIfCarExists(int carId)
+        {
+            if(!(_carDal.GetAll(c=>c.Id==carId).Count > 0))
+            {
+                return new ErrorResult("car not exists");
+            }
+            return new SuccessResult();
+        }
     }
 }

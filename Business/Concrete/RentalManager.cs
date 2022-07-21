@@ -38,10 +38,10 @@ namespace Business.Concrete
 
         public IResult Delete(Rental rental)
         {
-            var result = _rentalDal.Get(r => r.Id == rental.Id);
-            if( result == null)
+            var result = BusinessRules.Run(CheckIfRentalExists(rental.Id));
+            if (result != null)
             {
-                return new ErrorResult(Messages.Error);
+                return result;
             }
             _rentalDal.Delete(rental);
             return new SuccessResult();
@@ -69,10 +69,10 @@ namespace Business.Concrete
 
         public IResult Update(Rental rental)
         {
-            var result = _rentalDal.Get(r => r.Id == rental.Id);
-            if (result == null)
+            var result = BusinessRules.Run(CheckIfRentalExists(rental.Id));
+            if (result != null)
             {
-                return new ErrorResult(Messages.Error);
+                return result;
             }
             _rentalDal.Update(rental);
             return new SuccessResult();
@@ -88,6 +88,17 @@ namespace Business.Concrete
                 return new ErrorResult();
             }
             return new SuccessResult();
+        }
+
+        private IResult CheckIfRentalExists(int rentalId)
+        {
+            var result = _rentalDal.GetAll(r => r.Id == rentalId).Count;
+
+            if(result>0)
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult();
         }
     }
 }
