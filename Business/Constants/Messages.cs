@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -27,5 +28,13 @@ namespace Business.Constants
 
         public static string Error = "Error";
 
+
+        public static string ImageUploadedSuccesfully="Image Uploaded Succesfully";
+        public static string ImageNotExists="Image not exists";
+        internal static string CarImageUpdated;
+        internal static string CarImageLimitExceded;
+        internal static string CarImagesListed;
+        internal static string CarImageDeleted;
+        internal static string CarImageAdded;
     }
 }
