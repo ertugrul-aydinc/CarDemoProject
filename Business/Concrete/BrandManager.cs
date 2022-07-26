@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -11,6 +12,7 @@ using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -24,14 +26,15 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
-            var result = BusinessRules.Run(CheckIfBrandName(brand.BrandName));
+            var result = BusinessRules.Run(CheckIfBrandNameExists(brand.BrandName));
 
-            if (!result.IsSuccess)
+            if (result!=null)
             {
-                return result;
+                return new ErrorResult("Marka zaten mevcut");
             }
 
             _brandDal.Add(brand);
@@ -63,15 +66,20 @@ namespace Business.Concrete
 
 
 
-        private IResult CheckIfBrandName(string brandName)
+        private IResult CheckIfBrandNameExists(string brandName)
         {
-            var result = _brandDal.GetAll(b => b.BrandName == brandName);
+            var control = _brandDal.GetAll(b => b.BrandName == brandName);
 
-            if (result != null)
+
+            if (control.Count != 0)
             {
                 return new ErrorResult();
             }
+
+           
             return new SuccessResult();
+
+
         }
     }
 }

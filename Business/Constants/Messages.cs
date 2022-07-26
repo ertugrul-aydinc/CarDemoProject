@@ -1,6 +1,8 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -29,12 +31,20 @@ namespace Business.Constants
         public static string Error = "Error";
 
 
-        public static string ImageUploadedSuccesfully="Image Uploaded Succesfully";
-        public static string ImageNotExists="Image not exists";
-        internal static string CarImageUpdated;
-        internal static string CarImageLimitExceded;
-        internal static string CarImagesListed;
-        internal static string CarImageDeleted;
-        internal static string CarImageAdded;
+        public static string ImageUploadedSuccesfully = "Image Uploaded Succesfully";
+        public static string ImageNotExists = "Image Not Exists";
+        public static string CarImageUpdated="Car Image Updated";
+        public static string CarImageLimitExceded="Car Image Limit Exceeded";
+        public static string CarImagesListed="Car Images Listed";
+        public static string CarImageDeleted="Car Image Deleted";
+        public static string CarImageAdded="Car Image Added";
+        public static string CarNotExists = "Car Not Exists";
+        public static string AuthorizationDenied="Authorization Denied";
+        internal static string UserRegistered;
+        internal static User UserNotFound;
+        internal static string SuccessfulLogin;
+        internal static User PasswordError;
+        internal static string UserAlreadyExists;
+        internal static string AccessTokenCreated;
     }
 }

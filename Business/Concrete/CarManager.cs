@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -23,12 +24,13 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
             
             _carDal.Add(car);
-            return new SuccessResult();
+            return new SuccessResult(Messages.CarAdded);
         }
 
         public IDataResult<List<Car>> LessThanPrice(int fiyat)
@@ -73,6 +75,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
         }
 
+        [ValidationAspect(typeof(CarValidator))]    
         public IResult Update(Car car)
         {
             var result = BusinessRules.Run(CheckIfCarExists(car.Id));
@@ -92,7 +95,7 @@ namespace Business.Concrete
         {
             if(!(_carDal.GetAll(c=>c.Id==carId).Count > 0))
             {
-                return new ErrorResult("car not exists");
+                return new ErrorResult(Messages.CarNotExists);
             }
             return new SuccessResult();
         }

@@ -35,9 +35,9 @@ namespace WebAPI.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
         [HttpGet("getbyid")]

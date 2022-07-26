@@ -23,7 +23,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanyName = cu.CompanyName,
                                  FirstName = us.FirstName,
                                  LastName = us.LastName,
-                                 Password = us.Password
+                                 
                              };
                 return result.ToList();
             }
