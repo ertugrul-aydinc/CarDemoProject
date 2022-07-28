@@ -7,8 +7,7 @@ using Core.Utilities.Helpers.GuidHelper;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Utilities.Results;
-
-
+using Core.Utilities.Business;
 
 namespace Core.Utilities.Helpers.FileHelper
 {
@@ -16,59 +15,85 @@ namespace Core.Utilities.Helpers.FileHelper
     {
         public IResult Delete(string filePath)
         {
-            DeleteOldImageFile(filePath);
-            return new SuccessResult();
-        }
-
-        public IResult Update(IFormFile file, string filePath, string root)
-        {
-            DeleteOldImageFile(filePath);
-            return Upload(file, root);
-        }
-
-        public IResult Upload(IFormFile file, string root)
-        {
-            var fileExists = CheckFileExists(file); 
-            if (fileExists.Message != null)
+            //Böyle bir dosya var mı yok mu diye kontrol edildi.
+            var result = CheckIfFileExists(filePath);
+            if (result.IsSuccess)
             {
-                return new ErrorResult(fileExists.Message);
+                File.Delete(filePath);
+                return new SuccessResult();
             }
-            var extension = Path.GetExtension(file.FileName);
-            var extensionValid = CheckFileExtensionValid(extension);
-            string guid = Guid.NewGuid().ToString(); 
-            string filePath = guid + extension; 
+            return result;
 
-            if (extensionValid.Message != null)
+        }
+
+        public IResult Update(IFormFile fromFile, string filePath, string root)
+        {
+            var resultOfDelete = Delete(filePath);
+            if (!resultOfDelete.IsSuccess)
             {
-                return new ErrorResult(extensionValid.Message);
+                return resultOfDelete;
             }
 
-            CheckDirectoryExists(root); 
-            CreateImageFile(root + filePath, file);
-            return new SuccessResult(filePath);
+            var resultOfUpload = Upload(fromFile, root);
+            if (!resultOfUpload.IsSuccess)
+            {
+                return resultOfUpload;
+            }
+
+            return new SuccessResult(resultOfUpload.Message);
         }
 
-        //Kontrol methodları
-
-        private static IResult CheckFileExists(IFormFile file)
+        public IResult Upload(IFormFile fromFile, string root)
         {
-            if (file != null && file.Length > 0)
+            var result = BusinessRules.Run(CheckIfFileEnter(fromFile),
+                CheckIfFileExtensionValid(Path.GetExtension(fromFile.FileName)));
+
+            if (result != null)
+            {
+                return result;
+            }
+
+          
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fromFile.FileName);
+
+            
+            CheckIfDirectoryExists(root);
+
+            CreateFile(root + fileName, fromFile);
+
+            return new SuccessResult(fileName);
+        }
+
+
+        
+        private IResult CheckIfFileExists(string filePath)
+        {
+            if (File.Exists(filePath))
             {
                 return new SuccessResult();
             }
-            return new ErrorResult("File not exists");
+            return new ErrorResult("Böyle bir dosya mevcut değil");
         }
 
-        private static IResult CheckFileExtensionValid(string extension)
+        private IResult CheckIfFileEnter(IFormFile fromFile)
         {
-            if (extension != ".jpeg" && extension != ".png" && extension != ".jpg")
+            if (fromFile.Length < 0)
             {
-                return new ErrorResult("Wrong file extension");
+                return new ErrorResult("Dosya girilmemiş");
             }
             return new SuccessResult();
         }
 
-        private static void CheckDirectoryExists(string root)
+        private IResult CheckIfFileExtensionValid(string extension)
+        {
+            if (extension == ".jpg" || extension == ".png" || extension == ".jpeg" || extension == ".webp")
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult("Dosya uzantısı geçerli değil");
+        }
+
+        private void CheckIfDirectoryExists(string root)
         {
             if (!Directory.Exists(root))
             {
@@ -76,22 +101,17 @@ namespace Core.Utilities.Helpers.FileHelper
             }
         }
 
-        private static void CreateImageFile(string directory, IFormFile file)
+        private void CreateFile(string directory, IFormFile fromFile)
         {
+            
             using (FileStream fileStream = File.Create(directory))
             {
-                file.CopyTo(fileStream);
-                fileStream.Flush();
+                fromFile.CopyTo(fileStream); 
+                fileStream.Flush(); 
             }
         }
 
-        private static void DeleteOldImageFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
+
     }
 }
 

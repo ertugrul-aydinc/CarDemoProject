@@ -26,19 +26,19 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        [SecuredOperation("admin")]
-        [ValidationAspect(typeof(BrandValidator))]
+        //[SecuredOperation("admin")]
+        //[ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
             var result = BusinessRules.Run(CheckIfBrandNameExists(brand.BrandName));
 
             if (result!=null)
             {
-                return new ErrorResult("Marka zaten mevcut");
+                return new ErrorResult(Messages.BrandAlreadyExists);
             }
 
             _brandDal.Add(brand);
-            return new SuccessResult();
+            return new SuccessResult(Messages.BrandAddedSuccessfully);
         }
 
         public IResult Delete(Brand brand)
@@ -49,6 +49,13 @@ namespace Business.Concrete
 
         public IDataResult<Brand> Get(int id)
         {
+            var result = BusinessRules.Run(CheckBrandIdExists(id));
+
+            if (result != null)
+            {
+                return new ErrorDataResult<Brand>();
+            }
+
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == id));
         }
 
@@ -80,6 +87,17 @@ namespace Business.Concrete
             return new SuccessResult();
 
 
+        }
+
+        private IResult CheckBrandIdExists(int brandId)
+        {
+            var result = _brandDal.GetAll(b => b.Id == brandId).Count;
+
+            if (result == 0)
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
         }
     }
 }
