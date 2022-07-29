@@ -26,8 +26,8 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        //[SecuredOperation("admin")]
-        //[ValidationAspect(typeof(BrandValidator))]
+        [SecuredOperation("admin")]
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
             var result = BusinessRules.Run(CheckIfBrandNameExists(brand.BrandName));

@@ -17,4 +17,8 @@
     <PackageReference Include="NHibernate" Version="5.3.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\Helpers\GuidHelper\" />
+  </ItemGroup>
+
 </Project>

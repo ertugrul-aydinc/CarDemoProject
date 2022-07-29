@@ -8,8 +8,8 @@ namespace Core.Utilities.Helpers.FileHelper
 {
     public interface IFileHelper
     {
-        IResult Upload(IFormFile file, string root);
-        IResult Update(IFormFile file,string filePath, string root);
-        IResult Delete(string filePath);
+        string Upload(IFormFile file, string root);
+        void Delete(string filePath);
+        string Update(IFormFile file, string filePath, string root);
     }
 }

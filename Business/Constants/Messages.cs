@@ -56,5 +56,6 @@ namespace Business.Constants
         public static string GetDefaultImage="Get Default Image";
         public static string CarImageIdNotExist="Car Image Not Exists";
         public static string ImageNotFound="Image Not Found";
+        internal static string ImageUpdatedSuccesfully;
     }
 }

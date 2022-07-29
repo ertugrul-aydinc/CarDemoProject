@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Utilities.Helpers.GuidHelper
+namespace Core.Utilities.Helpers.FileHelper
 {
-    public  class GuidHelper
+    public class GuidHelper
     {
         public static string CreateGuid()
         {
