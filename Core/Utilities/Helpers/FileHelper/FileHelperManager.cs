@@ -43,10 +43,10 @@ namespace Core.Utilities.Helpers.FileHelper
             return new SuccessResult(resultOfUpload.Message);
         }
 
-        public IResult Upload(IFormFile fromFile, string root)
+        public IResult Upload(IFormFile formFile, string root)
         {
-            var result = BusinessRules.Run(CheckIfFileEnter(fromFile),
-                CheckIfFileExtensionValid(Path.GetExtension(fromFile.FileName)));
+            var result = BusinessRules.Run(CheckIfFileEnter(formFile),
+                CheckIfFileExtensionValid(Path.GetExtension(formFile.FileName)));
 
             if (result != null)
             {
@@ -54,14 +54,14 @@ namespace Core.Utilities.Helpers.FileHelper
             }
 
           
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fromFile.FileName);
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName);
 
             
             CheckIfDirectoryExists(root);
 
-            CreateFile(root + fileName, fromFile);
+            CreateFile(root + fileName, formFile);
 
-            return new SuccessResult(fileName);
+            return new SuccessResult();
         }
 
 
