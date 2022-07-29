@@ -10,7 +10,19 @@ using Entities.Concrete;
 
 //GetCustomersDetails();
 
+string path = "C:\\Users\\arret\\source\\repos\\CarDemoProject\\WebAPI\\3a54cafd-7389-430c-b41c-0ab404df34e9.jpg";
 
+
+void sil(string a)
+{
+    if (File.Exists(a))
+    {
+        File.Delete(a);
+    }
+}
+
+
+sil(path);
 
 BrandManager brandManager = new BrandManager(new EfBrandDal());
 

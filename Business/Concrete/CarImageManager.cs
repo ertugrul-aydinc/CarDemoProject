@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers.FileHelper;
 using Core.Utilities.Results;
@@ -13,7 +15,7 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class CarImageManager:ICarImageService
+    public class CarImageManager : ICarImageService
     {
         ICarImageDal _carImageDal;
         IFileHelper _fileHelper;
@@ -28,8 +30,9 @@ namespace Business.Concrete
         public IResult Add(IFormFile formFile, CarImage carImage)
         {
             var result = BusinessRules.Run(CheckIfCarImageCountOfCarCorret(carImage.CarId));
+            var result2 = _fileHelper.Upload(formFile, carImage.ImagePath);
 
-            if (result != null)
+            if (result != null&&result2.IsSuccess==false)
             {
                 return result;
             }
@@ -73,7 +76,7 @@ namespace Business.Concrete
         {
             var result = BusinessRules.Run(CheckIfImageExists(imageId));
 
-            if (result != null)
+            if(result != null)
             {
                 return new ErrorDataResult<CarImage>(Messages.ImageNotFound);
             }
@@ -89,11 +92,11 @@ namespace Business.Concrete
 
         }
 
-
+        
 
         private IResult CheckIfCarImageCountOfCarCorret(int carId)
         {
-            var result = _carImageDal.GetAll(c => c.CarId == carId).Count;
+            var result = _carImageDal.GetAll(c => c.CarId == carId).Count();
             if (result > 4)
             {
                 return new ErrorResult(Messages.CarImageLimitExceeded);
