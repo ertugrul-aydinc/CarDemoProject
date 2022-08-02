@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers.FileHelper;
@@ -24,6 +25,10 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
             _fileHelper = fileHelper;
         }
+
+
+        [SecuredOperation("admin")]
+        [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfCarImageLimit(carImage.CarId));
@@ -37,12 +42,16 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ImageUploadedSuccesfully);
         }
 
+        [SecuredOperation("admin")]
         public IResult Delete(CarImage carImage)
         {
             _fileHelper.Delete(PathConstants.ImagesPath + carImage.ImagePath);
             _carImageDal.Delete(carImage);
             return new SuccessResult(Messages.CarImageDeleted);
         }
+
+        [SecuredOperation("admin")]
+        [ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             carImage.ImagePath = _fileHelper.Update(file, PathConstants.ImagesPath + carImage.ImagePath, PathConstants.ImagesPath);
@@ -96,9 +105,6 @@ namespace Business.Concrete
 
         private IDataResult<CarImage> GetDefaultImage2()
         {
-
-            
-            
             return new SuccessDataResult<CarImage>(new CarImage { CarId = 0, Date = DateTime.Now, ImagePath = @"C:\Users\arret\source\repos\CarDemoProject\WebAPI\wwwroot\Images\Default\DefaultImage.jpg" });
         }
         private IResult CheckCarImage(int carId)

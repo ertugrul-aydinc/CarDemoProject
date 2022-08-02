@@ -45,6 +45,13 @@ namespace Business.Concrete
 
         public IDataResult<Car> Get(int id)
         {
+            var result = BusinessRules.Run(CheckIfCarExists(id));
+
+            if (result != null)
+            {
+                return new ErrorDataResult<Car>();
+            }
+
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
 
