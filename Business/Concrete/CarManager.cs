@@ -49,7 +49,7 @@ namespace Business.Concrete
 
             if (result != null)
             {
-                return new ErrorDataResult<Car>();
+                return new ErrorDataResult<Car>(Messages.CarNotExists);
             }
 
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
@@ -57,16 +57,30 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
+            var result = BusinessRules.Run(CheckIfCarExists(id));
+            if (result != null)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.CarNotExists);
+            }
+
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
         }
 
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
+            var result = BusinessRules.Run(CheckIfCarExists(id));
+            if (result != null)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.CarNotExists);
+            }
+
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetail()
         {
+            
+
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetail());
         }
 

@@ -68,7 +68,7 @@ namespace Business.Concrete
 
             if (result > 0)
             {
-                return new ErrorResult();
+                return new ErrorResult(Messages.ColorAlreadyExists);
             }
             return new SuccessResult();
         }

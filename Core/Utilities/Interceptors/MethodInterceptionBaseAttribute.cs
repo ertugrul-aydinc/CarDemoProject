@@ -8,9 +8,7 @@ namespace Core.Utilities.Interceptors
     {
         public int Priority { get; set; }
 
-        public virtual void Intercept(IInvocation invocation)
-        {
-
-        }
+        public abstract void Intercept(IInvocation invocation);
+        
     }
 }

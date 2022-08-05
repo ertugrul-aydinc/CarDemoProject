@@ -11,26 +11,19 @@ namespace Business.Constants
     {
         public static string ProductNameInvalid = "Product Name Invalid";
         public static string MaintenanceTime = "Maintenance Time";
-
-
         public static string CarAdded = "Car Added";
         public static string CarListed = "Car Listed";
         public static string CarDeleted = "Car Deleted";
         public static string CarUpdated = "Car Updated";
-
         public static string ColorAdded = "Color Added";
         public static string ColorListed = "Color Listed";
         public static string ColorDeleted = "Color Deleted";
         public static string ColorUpdated = "Color Updated";
-
         public static string BandAdded = "Brand Added";
         public static string BrandListed = "Brand Listed";
         public static string BrandDeleted = "Brand Deleted";
         public static string BrandUpdated = "Brand Updated";
-
         public static string Error = "Error";
-
-
         public static string ImageUploadedSuccesfully = "Image Uploaded Succesfully";
         public static string ImageNotExists = "Image Not Exists";
         public static string CarImageUpdated="Car Image Updated";
@@ -56,6 +49,7 @@ namespace Business.Constants
         public static string GetDefaultImage="Get Default Image";
         public static string CarImageIdNotExist="Car Image Not Exists";
         public static string ImageNotFound="Image Not Found";
-        internal static string ImageUpdatedSuccesfully;
+        public static string ImageUpdatedSuccesfully="Image Updated Successfully";
+        public static string ColorAlreadyExists="Color Already Exists";
     }
 }
