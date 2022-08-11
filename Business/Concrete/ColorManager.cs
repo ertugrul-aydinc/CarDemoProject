@@ -62,6 +62,8 @@ namespace Business.Concrete
 
 
 
+
+
         private IResult CheckIfColorExists(string colorName)
         {
             var result = _colorDal.GetAll(c => c.ColorName == colorName).Count;

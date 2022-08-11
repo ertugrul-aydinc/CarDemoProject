@@ -27,13 +27,14 @@ namespace DataAccess.Concrete.EntityFramework
 
                              {
                                  Id = rntl.Id,
+                                 CarId=crs.Id,
                                  BrandName = brnd.BrandName,
                                  ColorName = clr.ColorName,
                                  DailyPrice = crs.DailyPrice,
                                  CompanyName = cstmr.CompanyName,
                                  Email = usr.Email,
-                                 FirstName = usr.FirstName,
-                                 LastName = usr.LastName,
+                                 FirstName = usr.FirstName+" "+usr.LastName,
+                                 //LastName = usr.LastName,
                                  ModelYear = crs.ModelYear,
                                  RentDate = rntl.RentDate,
                                  ReturnDate = rntl.ReturnDate

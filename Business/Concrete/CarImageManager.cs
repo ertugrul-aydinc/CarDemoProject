@@ -34,7 +34,7 @@ namespace Business.Concrete
             IResult result = BusinessRules.Run(CheckIfCarImageLimit(carImage.CarId));
             if (result != null)
             {
-                return result;
+                return new ErrorResult(Messages.CarImageLimitExceeded);
             }
             carImage.ImagePath = _fileHelper.Upload(file, PathConstants.ImagesPath);
             carImage.Date = DateTime.Now;
@@ -76,7 +76,7 @@ namespace Business.Concrete
             if (result != null)
             {
                 
-                return new ErrorDataResult<CarImage>(GetDefaultImage2().Data,result.Message);
+                return new ErrorDataResult<CarImage>(GetDefaultImage2().Data.ImagePath);
             }
 
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == imageId));
@@ -99,13 +99,13 @@ namespace Business.Concrete
         {
 
             List<CarImage> carImage = new List<CarImage>();
-            carImage.Add(new CarImage { CarId = carId, Date = DateTime.Now, ImagePath = @"C:\Users\arret\source\repos\CarDemoProject\WebAPI\wwwroot\Images\Default\DefaultImage.jpg" });
+            carImage.Add(new CarImage { CarId = carId, Date = DateTime.Now, ImagePath = "DefaultImage.jpg" });
             return new SuccessDataResult<List<CarImage>>(carImage);
         }
 
         private IDataResult<CarImage> GetDefaultImage2()
         {
-            return new SuccessDataResult<CarImage>(new CarImage { CarId = 0, Date = DateTime.Now, ImagePath = @"C:\Users\arret\source\repos\CarDemoProject\WebAPI\wwwroot\Images\Default\DefaultImage.jpg" });
+            return new SuccessDataResult<CarImage>(new CarImage { CarId = 0, Date = DateTime.Now, ImagePath = "DefaultImage.jpg" });
         }
         private IResult CheckCarImage(int carId)
         {

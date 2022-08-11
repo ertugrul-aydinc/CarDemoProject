@@ -4,6 +4,7 @@ using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -26,6 +27,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
+           
 
             _userDal.Add(user);
             return new SuccessResult();
@@ -60,6 +62,17 @@ namespace Business.Concrete
         {
             _userDal.Update(user);
             return new SuccessResult();
+        }
+
+        private IResult CheckIfUserExists(string email)
+        {
+            var result = _userDal.GetAll(u => u.Email == email).Count;
+
+            if (result > 0)
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult();
         }
     }
 }

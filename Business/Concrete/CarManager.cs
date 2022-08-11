@@ -120,5 +120,38 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailByCarId(int id)
+        {
+            var result = _carDal.GetCarDetail(c=>c.CarId==id);
+
+            if (result == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int id)
+        {
+            var result = _carDal.GetCarDetail(c => c.ColorId == id);
+
+            if (result == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int id)
+        {
+            var result = _carDal.GetCarDetail(c => c.BrandId == id);
+
+            if (result == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
     }
 }
