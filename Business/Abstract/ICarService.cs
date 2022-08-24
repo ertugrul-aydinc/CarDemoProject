@@ -20,7 +20,7 @@ namespace Business.Abstract
         IDataResult<Car> Get(int id);
 
 
-        IDataResult<List<Car>> LessThanPrice(int fiyat);
+        IDataResult<List<Car>> LessThanPrice(int price);
 
 
         IDataResult<List<CarDetailDto>> GetCarDetailByCarId(int id);
@@ -32,6 +32,7 @@ namespace Business.Abstract
 
         IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int id);
         IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int id);
+        IDataResult<List<CarDetailDto>> GetCarByColorAndBrandId(int colorId, int brandId);
 
 
 

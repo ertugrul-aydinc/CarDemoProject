@@ -33,9 +33,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarAdded);
         }
 
-        public IDataResult<List<Car>> LessThanPrice(int fiyat)
+        public IDataResult<List<Car>> LessThanPrice(int price)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice < fiyat));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice < price));
         }
 
         public IDataResult<List<Car>> GetAll()
@@ -109,18 +109,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarUpdated);
         }
 
-
-
-
-        private IResult CheckIfCarExists(int carId)
-        {
-            if(!(_carDal.GetAll(c=>c.Id==carId).Count > 0))
-            {
-                return new ErrorResult(Messages.CarNotExists);
-            }
-            return new SuccessResult();
-        }
-
         public IDataResult<List<CarDetailDto>> GetCarDetailByCarId(int id)
         {
             var result = _carDal.GetCarDetail(c=>c.CarId==id);
@@ -152,6 +140,27 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<CarDetailDto>>();
             }
             return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarByColorAndBrandId(int colorId, int brandId)
+        {
+            var result = _carDal.GetCarDetail(c=>c.ColorId==colorId && c.BrandId==brandId);
+
+            if(result == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private IResult CheckIfCarExists(int carId)
+        {
+            if (!(_carDal.GetAll(c => c.Id == carId).Count > 0))
+            {
+                return new ErrorResult(Messages.CarNotExists);
+            }
+            return new SuccessResult();
         }
     }
 }

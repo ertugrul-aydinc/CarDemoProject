@@ -25,10 +25,12 @@ namespace DataAccess.Concrete.EntityFramework
                              select new CarDetailDto { DailyPrice = ca.DailyPrice,
                                  Description = ca.Description,
                                  ColorName = co.ColorName,
-                                 BrandName=b.BrandName,
-                                 CarId=ca.Id,
-                                 BrandId=b.Id,
-                                 ColorId=co.Id,
+                                 BrandName = b.BrandName,
+                                 CarId = ca.Id,
+                                 BrandId =b.Id,
+                                 ModelYear=ca.ModelYear,
+                                 ColorId = co.Id,
+                                 IsRentable = !context.Rentals.Any(r => r.CarId == ca.Id) || !context.Rentals.Any(r => r.CarId == ca.Id && (r.ReturnDate == null || r.ReturnDate > DateTime.Now)),
                                  ImagePath=(from m in context.CarImages where  m.CarId == ca.Id select m.ImagePath).FirstOrDefault()};
 
                 return filter == null ? result.ToList() : result.Where(filter).ToList();

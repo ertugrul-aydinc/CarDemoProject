@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -24,40 +25,53 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        [ValidationAspect(typeof(UserValidator))]
+        [SecuredOperation("admin",Priority =1)]
+        [ValidationAspect(typeof(UserValidator),Priority =2)]
         public IResult Add(User user)
         {
-           
+            var result = CheckIfUserExists(user.Email);
 
+            if(result == null)
+            {
+                return new ErrorResult(Messages.UserAlreadyExists);
+            }
+            
             _userDal.Add(user);
             return new SuccessResult();
         }
 
+        [SecuredOperation("admin")]
         public IResult Delete(User user)
         {
             _userDal.Delete(user);
             return new SuccessResult();
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<User> Get(int id)
         {
             return new SuccessDataResult<User>(_userDal.Get(u=> u.Id==id));
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll());
         }
 
+        [SecuredOperation("admin")]
         public User GetByMail(string email)
         {
             return _userDal.Get(u => u.Email == email);
         }
+
+        [SecuredOperation("admin")]
         public List<OperationClaim> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
         }
 
+        [SecuredOperation("admin")]
         public IResult Update(User user)
         {
             _userDal.Update(user);

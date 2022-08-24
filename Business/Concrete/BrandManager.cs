@@ -27,7 +27,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        [SecuredOperation("admin,brand.add")]
+        //[SecuredOperation("admin,brand.add")]
         [ValidationAspect(typeof(BrandValidator))]
         [CacheAspect]
         [CacheRemoveAspect("Get")]
@@ -44,12 +44,12 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandAddedSuccessfully);
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         [CacheRemoveAspect("Get")]
         public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
-            return new SuccessResult();
+            return new SuccessResult(Messages.BrandDeleted);
         }
 
         [CacheAspect]
@@ -110,6 +110,17 @@ namespace Business.Concrete
                 return new ErrorResult();
             }
             return new SuccessResult();
+        }
+
+        public IResult Delete2(int brandId)
+        {
+            var result = _brandDal.Get(b => b.Id == brandId);
+            if(result == null)
+            {
+                return new ErrorResult();
+            }
+            _brandDal.Delete(result);
+            return new SuccessResult(Messages.BrandDeleted);
         }
     }
 }
